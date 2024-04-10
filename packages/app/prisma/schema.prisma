@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  authUserId String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  wills      Will[]
+
+  @@map(name: "users")
+}
+
+model Coupon {
+  id              String     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  couponCode      String     @unique
+  type            CouponType
+  appliedAt       DateTime?
+  appliedToWillId String?    @db.ObjectId
+  billingId       String     @db.ObjectId
+  billing         Billing    @relation(fields: [billingId], references: [id], onDelete: Cascade)
+
+  @@map(name: "coupons")
+}
+
+model Billing {
+  id                     String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  paidAt                 DateTime?
+  stripeProductId        String
+  stripeCustomerId       String
+  stripeSubscriptionId   String?
+  stripeCurrentPeriodEnd DateTime?
+  coupons                Coupon[]
+  will                   Will      @relation(fields: [willId], references: [id], onDelete: Cascade)
+  willId                 String    @unique @db.ObjectId
+
+  @@map(name: "billings")
+}
+
+model Person {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  fullName         String
+  email            String         @default("")
+  address          Address
+  category         PersonCategory
+  willId           String         @db.ObjectId
+  will             Will           @relation(fields: [willId], references: [id], onDelete: Cascade)
+  petId            String?        @db.ObjectId // Currently Prisma doesn't support NULLABLE, UNIQUE fields (with Mongo DB)
+  pet              Pet?
+  isPartner        Boolean        @default(false)
+  isCharity        Boolean?
+  percentageAssets Int?
+  moneyReceived    String?
+  specialItem      SpecialItem?
+
+  @@map(name: "people")
+}
+
+model Pet {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  type            String
+  careMoneyAmount String?
+  person          Person  @relation(fields: [personId], references: [id], onDelete: Cascade)
+  personId        String  @unique @db.ObjectId
+  will            Will    @relation(fields: [willId], references: [id])
+  willId          String  @db.ObjectId
+
+  @@map(name: "pets")
+}
+
+model Will {
+  id                               String           @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt                        DateTime         @default(now())
+  updatedAt                        DateTime         @updatedAt
+  deletedAt                        DateTime?
+  status                           WillStatus       @default(IN_PROGRESS)
+  creationType                     WillCreationType
+  generationKey                    String
+  firstGeneratedAt                 DateTime?
+  lastGeneratedAt                  DateTime?
+  user                             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                           String           @db.ObjectId
+  firstName                        String
+  middleName                       String
+  lastName                         String
+  dateOfBirth                      String
+  email                            String?
+  address                          Address?
+  cremated                         Boolean?
+  professionalAsExecutor           Boolean          @default(false)
+  professionalAsBackupExecutor     Boolean          @default(false)
+  partnerAsExecutor                Boolean          @default(false)
+  partnerAsGuardian                Boolean          @default(false)
+  siblingsAfterPartner             Boolean          @default(false)
+  childrenResidualEstatePercentage Int?
+  passResidualEstateToChildren     Boolean?         @default(false)
+  passResidualEstateToSiblings     Boolean?         @default(false)
+  inheritanceAge                   Int?
+  donateOrgans                     Boolean?
+  coupleCouponIdApplied            String?          @db.ObjectId
+  followUpNotPaidEmailSent         Boolean?
+  followUpNotCompleteEmailSent     Boolean?
+  people                           Person[]
+  pets                             Pet[]
+  billing                          Billing?
+
+  @@map(name: "wills")
+}
+
+type SpecialItem {
+  description String
+}
+
+type Address {
+  line1      String
+  line2      String?
+  city       String
+  state      String
+  postalCode String
+  country    String
+}
+
+enum WillStatus {
+  IN_PROGRESS
+  COMPLETE_PAID
+  COMPLETE_UNPAID
+}
+
+enum WillCreationType {
+  SINGLE
+  RELATIONSHIP
+  FAMILY
+  CUSTOM
+}
+
+enum PersonCategory {
+  BENEFICIARY_ASSETS
+  BENEFICIARY_FINANCIAL
+  BENEFICIARY_ITEMS
+  EXECUTOR
+  EXECUTOR_BACKUP
+  GUARDIAN
+  GUARDIAN_BACKUP
+  PARTNER
+  PET_OWNER
+}
+
+enum CouponType {
+  COUPLE
+}

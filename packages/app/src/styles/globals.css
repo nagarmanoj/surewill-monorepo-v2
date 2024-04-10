@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-error: #dc2626;
+    --color-text-base: #0C0C46;
+    --color-brand-purple: #742183;
+  }
+}
+
+@layer base {
+  body {
+    color: var(--color-text-base);
+    scroll-behavior: smooth;
+  }
+}

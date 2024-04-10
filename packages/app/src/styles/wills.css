@@ -1,0 +1,123 @@
+html {
+  font-size: 14px;
+}
+
+.section-heading {
+  font-weight: 600;
+}
+
+#will-container li {
+  padding-bottom: 1em;
+}
+
+#will-container {
+  counter-reset: section;
+}
+
+#will-container .section-heading:before {
+  counter-increment: section;
+  content: counter(section) ". ";
+  margin: 0 0.5em 0 0;
+}
+
+#will-container ol {
+  counter-reset: clause;
+  margin-top: 1em;
+  list-style: none outside none;
+}
+
+#will-container ol li {
+  counter-increment: clause;
+}
+
+#will-container ol li:before {
+  content: counter(section) "." counters(clause, ".") ". ";
+}
+#will-container ol li {
+  text-indent: -2rem;
+  margin-left: 2rem;
+}
+
+/* Lower alpha lists */
+.lower-alpha {
+  counter-reset: alpha-list;
+  margin-top: 1em;
+  padding-bottom: 0;
+}
+#will-container .lower-alpha li {
+  counter-increment: alpha-list;
+}
+#will-container .lower-alpha li:before {
+  content: "(" counter(alpha-list, lower-alpha) ") ";
+  margin-right: 0.4em;
+}
+#will-container .lower-alpha li:last-of-type {
+  padding-bottom: 0;
+}
+#will-container .lower-alpha li {
+  text-indent: -2rem;
+  margin-left: 2rem;
+}
+
+/* Lower roman lists */
+.lower-roman {
+  counter-reset: roman-list;
+  margin-top: 1em;
+  padding-bottom: 0;
+}
+#will-container .lower-roman li {
+  counter-increment: roman-list;
+}
+#will-container .lower-roman li:before {
+  content: "(" counter(roman-list, lower-roman) ") ";
+  margin: 0 0.5em 0 0;
+}
+#will-container .lower-roman li:last-of-type {
+  padding-bottom: 0;
+}
+#will-container .lower-roman li {
+  text-indent: -2rem;
+  margin-left: 2rem;
+}
+
+/* Number lists */
+.number {
+  counter-reset: number-list;
+  margin-top: 1em;
+  padding-bottom: 0;
+}
+#will-container .number li {
+  counter-increment: number-list;
+}
+#will-container .number li:before {
+  content: "(" counter(number-list, number) ") ";
+  margin: 0 0.5em 0 0;
+}
+#will-container .number li:last-of-type {
+  padding-bottom: 0;
+}
+#will-container .number li {
+  text-indent: -2rem;
+  margin-left: 2rem;
+}
+
+/* Lower alpha inner lists */
+.lower-alpha-inner {
+  counter-reset: alpha-inner-list;
+  margin-top: 1em;
+  padding-bottom: 0;
+}
+#will-container .lower-alpha-inner li {
+  counter-increment: alpha-inner-list;
+}
+#will-container .lower-alpha-inner li:before {
+  content: counter(alpha-inner-list, lower-alpha) ". ";
+  margin: 0 0.5em 0 0;
+}
+#will-container .lower-alpha-inner li:last-of-type {
+  padding-bottom: 0;
+}
+#will-container .lower-alpha-inner li {
+  text-indent: -2rem;
+  margin-left: 2rem;
+}

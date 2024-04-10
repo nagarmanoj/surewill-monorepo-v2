@@ -1,0 +1,11 @@
+name: Call the Staging DB health check endpoint to keep the server running (Render free instances shut down after 15 minutes of inactivity)
+on:
+  schedule:
+    - cron: '*/13 * * * 1-5'  # every 13 minutes
+jobs:
+  build:
+    name: Call health check endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: cURL request
+        run: curl https://surewill-staging-4vxc.onrender.com/health-check

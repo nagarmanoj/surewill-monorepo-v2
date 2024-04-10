@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <style type="text/css">
+      .content {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        color: #0C0C46;
+        -webkit-print-color-adjust: exact;
+        vertical-align: middle;
+        font-size: 12px;
+        padding-left: 55px;
+        padding-right: 55px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        font-family: Helvetica, sans-serif;
+      }
+      .signature-line {
+        border-top: dashed 1px;
+        width:110px;
+      }
+      .witnesses {
+        display: flex;
+        gap: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div>
+        <div>
+          <hr class="signature-line" style="width: 150px;" />
+          <div>{{name}}</div>
+        </div>
+      </div>
+      <div class="witnesses">
+        <div className="signature-section">
+          <hr class="signature-line" />
+          <div>Witness 1</div>
+        </div>
+        <div className="signature-section">
+          <hr class="signature-line" />
+          <div>Witness 2</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/crons/follow-up-not-paid?cronKey=surewillCronPublicKey",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/crons/follow-up-not-complete?cronKey=surewillCronPublicKey",
+      "schedule": "10 9 * * *"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "surewill-monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:unit": "pnpm -r run test:unit",
+    "type-check": "pnpm -r run type-check"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,5 @@
+.content {
+  @media (max-width: theme(screens.sm)) {
+    max-width: calc(100vw - 5rem);
+  }
+}
